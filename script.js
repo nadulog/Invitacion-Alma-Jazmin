@@ -148,20 +148,5 @@
     }, 520);
   };
   document.querySelector("[data-enter-with-music]").addEventListener("click", () => enterInvitation(true));
-  const enterWithoutMusicButton = document.querySelector("[data-enter-without-music]");
-  enterWithoutMusicButton.addEventListener("click", () => enterInvitation(false));
-
-  // Intenta arrancar la música al abrir; si el navegador lo bloquea, arranca con el primer toque.
-  const unlockEvents = ["pointerdown", "touchend", "keydown", "click"];
-  const removeUnlockListeners = () => unlockEvents.forEach(type => document.removeEventListener(type, unlockMusic, true));
-  function unlockMusic(event) {
-    if (enterWithoutMusicButton.contains(event.target) || audioToggle.contains(event.target) || !backgroundMusic.paused) {
-      removeUnlockListeners();
-      return;
-    }
-    backgroundMusic.play().then(removeUnlockListeners).catch(() => {});
-  }
-  backgroundMusic.play().catch(() => {
-    unlockEvents.forEach(type => document.addEventListener(type, unlockMusic, { capture: true, passive: true }));
-  });
+  document.querySelector("[data-enter-without-music]").addEventListener("click", () => enterInvitation(false));
 })();
